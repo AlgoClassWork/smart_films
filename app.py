@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QTextEdit,
     QHBoxLayout, QListWidget, QPushButton,
-    QVBoxLayout, QLineEdit
+    QVBoxLayout, QLineEdit, QInputDialog
 )
 
 films = {
@@ -178,8 +178,15 @@ def show_film_info():
     genres_list.clear()
     genres_list.addItems( films[ film_name ]['жанры'] )
 
+def add_film():
+    film_name, ok = QInputDialog.getText(window, 'Добавить фильм', 'Название')
+    if film_name != '':
+        films[ film_name ] = {'описание': '', 'жанры': []}
+        films_list.addItem(film_name)
+
 # Подписки на события
 films_list.itemClicked.connect(show_film_info)
+add_film_btn.clicked.connect(add_film)
 
 # --- Запуск приложения ---
 films_list.addItems(films)
