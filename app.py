@@ -1,19 +1,9 @@
+import json
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QTextEdit,
     QHBoxLayout, QListWidget, QPushButton,
     QVBoxLayout, QLineEdit, QInputDialog
 )
-
-films = {
-    'Хатико': {
-        'описание': 'Грустный фильм',
-        'жанры': ['драмма', 'животные']
-    },
-    'Форсаж': {
-        'описание': 'Веселый фильм',
-        'жанры': ['боевик', 'гонки']
-    },
-}
 
 
 # --- Инициализация приложения и главного окна ---
@@ -172,6 +162,10 @@ app.setStyleSheet("""
 """)
 
 # Функционал
+def update_database():
+    database = open('films.json', 'w', encoding='utf-8')
+    json.dump(films, database, ensure_ascii=False)
+
 def show_film_info():
     film_name = films_list.selectedItems()[0].text()
     description_field.setText( films[ film_name ]['описание'] )
@@ -183,12 +177,16 @@ def add_film():
     if film_name != '':
         films[ film_name ] = {'описание': '', 'жанры': []}
         films_list.addItem(film_name)
+        update_database()
+        
 
 # Подписки на события
 films_list.itemClicked.connect(show_film_info)
 add_film_btn.clicked.connect(add_film)
 
 # --- Запуск приложения ---
+database = open('films.json', encoding='utf-8')
+films = json.load(database)
 films_list.addItems(films)
 window.show() # Отображаем главное окно
 app.exec() # Запускаем основной цикл обработки событий приложения
