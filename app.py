@@ -4,6 +4,17 @@ from PyQt5.QtWidgets import (
     QVBoxLayout, QLineEdit
 )
 
+films = {
+    'Хатико': {
+        'описание': 'Грустный фильм',
+        'жанры': ['драмма', 'животные']
+    },
+    'Форсаж': {
+        'описание': 'Веселый фильм',
+        'жанры': ['боевик', 'гонки']
+    },
+}
+
 
 # --- Инициализация приложения и главного окна ---
 app = QApplication([])
@@ -20,8 +31,6 @@ description_field.setPlaceholderText('Здесь будет отображать
 
 # Список фильмов
 films_list = QListWidget()
-films_list.addItems(['Интерстеллар', 'Семь', 'Король лев', 'Начало', 'Матрица', 'Форрест Гамп', 'Дюна', 'Побег из Шоушенка'])
-
 
 # Кнопки для фильмов
 add_film_btn = QPushButton('Добавить фильм')
@@ -32,8 +41,6 @@ del_film_btn.setFixedHeight(40)
 
 # Список жанров
 genres_list = QListWidget()
-genres_list.addItems(['Боевик', 'Комедия', 'Драма', 'Фантастика', 'Триллер', 'Приключения', 'Ужасы'])
-
 
 # Кнопки для жанров
 add_genre_btn = QPushButton('Добавить жанр')
@@ -164,7 +171,17 @@ app.setStyleSheet("""
     }
 """)
 
+# Функционал
+def show_film_info():
+    film_name = films_list.selectedItems()[0].text()
+    description_field.setText( films[ film_name ]['описание'] )
+    genres_list.clear()
+    genres_list.addItems( films[ film_name ]['жанры'] )
+
+# Подписки на события
+films_list.itemClicked.connect(show_film_info)
 
 # --- Запуск приложения ---
+films_list.addItems(films)
 window.show() # Отображаем главное окно
 app.exec() # Запускаем основной цикл обработки событий приложения
