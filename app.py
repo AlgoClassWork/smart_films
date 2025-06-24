@@ -211,13 +211,33 @@ def del_genre():
         genres_list.clear()
         genres_list.addItems( films[film_name]['жанры'] )
         update_database()
-        
+
+def search():
+    if search_btn.text() == 'Поиск':
+        genre = search_field.text() 
+        filtred_films = {}
+        for film in films:
+            if genre in films[film]['жанры']:
+                filtred_films[film] = films[film]
+        search_field.clear()
+        genres_list.clear()
+        films_list.clear()
+        films_list.addItems(filtred_films)
+        search_btn.setText('Сбросить')
+    elif search_btn.text() == 'Сбросить':
+        search_field.clear()
+        genres_list.clear()
+        films_list.clear()
+        films_list.addItems(films)
+        search_btn.setText('Поиск')
+    
 # Подписки на события
 films_list.itemClicked.connect(show_film_info)
 add_film_btn.clicked.connect(add_film)
 del_film_btn.clicked.connect(del_film)
 add_genre_btn.clicked.connect(add_genre)
 del_genre_btn.clicked.connect(del_genre)
+search_btn.clicked.connect(search)
 # --- Запуск приложения ---
 database = open('films.json', encoding='utf-8')
 films = json.load(database)
