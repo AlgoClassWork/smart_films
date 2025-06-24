@@ -188,9 +188,7 @@ def del_film():
         films_list.addItems(films)
         update_database()
 
-# Почистить или добавить во временное хранилище переменная films
-# Сделать визуальное добавление или удаление
-# Перезаписать постоянное хранилище films.json
+
 
 def add_genre():
     if films_list.selectedItems():
@@ -200,12 +198,26 @@ def add_genre():
             films[film_name]['жанры'].append(genre)
             genres_list.addItem(genre)
             update_database()
+
+# Почистить или добавить во временное хранилище переменная films
+# Сделать визуальное добавление или удаление
+# Перезаписать постоянное хранилище films.json
+
+def del_genre():
+    if genres_list.selectedItems():
+        film_name = films_list.selectedItems()[0].text()
+        genre = genres_list.selectedItems()[0].text()
+        films[film_name]['жанры'].remove(genre)
+        genres_list.clear()
+        genres_list.addItems( films[film_name]['жанры'] )
+        update_database()
         
 # Подписки на события
 films_list.itemClicked.connect(show_film_info)
 add_film_btn.clicked.connect(add_film)
 del_film_btn.clicked.connect(del_film)
 add_genre_btn.clicked.connect(add_genre)
+del_genre_btn.clicked.connect(del_genre)
 # --- Запуск приложения ---
 database = open('films.json', encoding='utf-8')
 films = json.load(database)
