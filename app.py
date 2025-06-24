@@ -69,17 +69,17 @@ main_line.addWidget(description_field, 3) # description_field занимает 3
 main_line.addLayout(list_line, 2) # list_line (правая панель) занимает 2 части ширины
 
 # Добавляем элементы в правую панель (list_line) с учетом растяжителей
-list_line.addWidget(films_list, 4) # Список фильмов занимает 4 части высоты
+list_line.addWidget(films_list) # Список фильмов занимает 4 части высоты
 list_line.addLayout(h1_line) # Добавляем макет с кнопками фильмов
 h1_line.addWidget(add_film_btn)
 h1_line.addWidget(del_film_btn)
 
-list_line.addWidget(genres_list, 2) # Список жанров занимает 2 части высоты (меньше, чем фильмы)
+list_line.addWidget(genres_list) # Список жанров занимает 2 части высоты (меньше, чем фильмы)
 list_line.addLayout(h2_line) # Добавляем макет с кнопками жанров
 h2_line.addWidget(add_genre_btn)
 h2_line.addWidget(del_genre_btn)
 
-list_line.addStretch(1) # Добавляем растяжитель, чтобы поле поиска и кнопка были внизу правой панели
+
 list_line.addWidget(search_field)
 list_line.addWidget(search_btn)
 
