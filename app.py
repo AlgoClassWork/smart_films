@@ -75,12 +75,11 @@ h1_line.addWidget(add_film_btn)
 h1_line.addWidget(del_film_btn)
 
 list_line.addWidget(genres_list) # Список жанров занимает 2 части высоты (меньше, чем фильмы)
+list_line.addWidget(search_field)
 list_line.addLayout(h2_line) # Добавляем макет с кнопками жанров
 h2_line.addWidget(add_genre_btn)
 h2_line.addWidget(del_genre_btn)
 
-
-list_line.addWidget(search_field)
 list_line.addWidget(search_btn)
 
 
@@ -180,9 +179,18 @@ def add_film():
         update_database()
 
 def del_film():
-    film_name = films_list.selectedItems()[0].text()
-    del films[film_name]
-    update_database()
+    if films_list.selectedItems():
+        film_name = films_list.selectedItems()[0].text()
+        del films[film_name]
+        description_field.clear()
+        genres_list.clear()
+        films_list.clear()
+        films_list.addItems(films)
+        update_database()
+
+# Почистить или добавить во временное хранилище переменная films
+# Перезаписать постоянное хранилище films.json
+# Сделать визуальное добавление или удаление
         
 # Подписки на события
 films_list.itemClicked.connect(show_film_info)
