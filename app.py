@@ -189,13 +189,23 @@ def del_film():
         update_database()
 
 # Почистить или добавить во временное хранилище переменная films
-# Перезаписать постоянное хранилище films.json
 # Сделать визуальное добавление или удаление
+# Перезаписать постоянное хранилище films.json
+
+def add_genre():
+    if films_list.selectedItems():
+        film_name = films_list.selectedItems()[0].text()
+        genre = search_field.text()
+        if genre not in films[film_name]['жанры'] and ' ' not in genre:
+            films[film_name]['жанры'].append(genre)
+            genres_list.addItem(genre)
+            update_database()
         
 # Подписки на события
 films_list.itemClicked.connect(show_film_info)
 add_film_btn.clicked.connect(add_film)
 del_film_btn.clicked.connect(del_film)
+add_genre_btn.clicked.connect(add_genre)
 # --- Запуск приложения ---
 database = open('films.json', encoding='utf-8')
 films = json.load(database)
