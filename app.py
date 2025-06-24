@@ -178,12 +178,16 @@ def add_film():
         films[ film_name ] = {'описание': '', 'жанры': []}
         films_list.addItem(film_name)
         update_database()
-        
 
+def del_film():
+    film_name = films_list.selectedItems()[0].text()
+    del films[film_name]
+    update_database()
+        
 # Подписки на события
 films_list.itemClicked.connect(show_film_info)
 add_film_btn.clicked.connect(add_film)
-
+del_film_btn.clicked.connect(del_film)
 # --- Запуск приложения ---
 database = open('films.json', encoding='utf-8')
 films = json.load(database)
